@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Header from './components/Header.js';
 import './App.css';
 
 function App() {
+  //const [adding, setAdding] = useState(false);
   return (
     <div className='App'>
-      <header className='App-header'></header>
+      <Header />
     </div>
   );
 }
