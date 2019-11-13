@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Header from './components/Header.js';
+import Footer from './components/Footer.js';
 import './App.css';
 
 function App() {
@@ -7,6 +8,8 @@ function App() {
   return (
     <div className='App'>
       <Header />
+      <div className='body'></div>
+      <Footer />
     </div>
   );
 }
