@@ -63,3 +63,19 @@ nav {
   font-weight: 700;
   color: hsl(225, 75%, 45%);
 }
+
+.Card {
+  width: 80%;
+  background-color: hsl(230, 75%, 99%);
+  box-shadow: 1px 3px 7px 2px hsl(230, 50%, 85%);
+  margin: 4vh auto;
+  display: flex;
+}
+
+.Card img {
+  height: 30vh;
+  min-height: 160px;
+}
+
+.CardsPage {
+}
