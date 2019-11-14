@@ -10,9 +10,13 @@ function App() {
   //const [adding, setAdding] = useState(false);
 
   const getCards = async () => {
-    const res = await fetch('/api/cards');
-    const body = await res.json();
-    return body;
+    try {
+      const res = await fetch('/api/cards');
+      const body = await res.json();
+      return body;
+    } catch (error) {
+      return error.message;
+    }
   };
 
   useEffect(() => {
