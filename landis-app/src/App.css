@@ -66,6 +66,8 @@ nav {
 
 .Card {
   width: 80%;
+  min-width: 500px;
+  word-wrap: break-word;
   background-color: hsl(230, 75%, 99%);
   box-shadow: 1px 3px 7px 2px hsl(230, 50%, 85%);
   margin: 4vh auto;
@@ -120,4 +122,8 @@ h3 {
   font-size: 2rem;
   font-weight: 600;
   text-align: center;
+}
+
+hr {
+  border-color: hsl(230, 20%, 70%);
 }

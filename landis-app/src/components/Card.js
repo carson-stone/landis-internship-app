@@ -17,7 +17,7 @@ function Card() {
   return (
     <div className='Card'>
       <div className='cardImageAndIndicator'>
-        <img src='https://i.pravatar.cc/377' alt='user picture' />
+        <img src='https://i.pravatar.cc/377' alt='user' />
         <Indicator />
       </div>
       <div className='userInfo'>

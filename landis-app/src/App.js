@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Header from './components/Header.js';
 import Footer from './components/Footer.js';
@@ -8,6 +8,17 @@ import './App.css';
 
 function App() {
   //const [adding, setAdding] = useState(false);
+
+  const getCards = async () => {
+    const res = await fetch('/api/cards');
+    const body = await res.json();
+    return body;
+  };
+
+  useEffect(() => {
+    console.log(getCards());
+  });
+
   return (
     <Router>
       <div className='App'>

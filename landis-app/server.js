@@ -1,8 +1,8 @@
 const express = require('express');
 const app = express();
 
-app.get('/', (req, res) => {
-  res.json('the api returned a result');
+app.get('/api/cards', (req, res) => {
+  res.json({ message: 'hi' });
 });
 
 app.listen(5000, () => {
