@@ -16,7 +16,7 @@ light: rgb(249, 250, 255)
 }
 
 .Header {
-  height: 8vh;
+  height: 6vh;
   min-height: 30px;
   display: flex;
   flex-direction: row;
@@ -32,7 +32,7 @@ light: rgb(249, 250, 255)
   color: hsl(225, 30%, 30%);
   min-height: 16px;
   height: 3vh;
-  padding: 2vh 2vw;
+  padding: 3vh 2vw;
   background-color: hsl(230, 75%, 95%);
 }
 
@@ -43,7 +43,7 @@ light: rgb(249, 250, 255)
 }
 
 .Header img {
-  height: 90%;
+  height: 70%;
 }
 
 nav {
@@ -70,12 +70,43 @@ nav {
   box-shadow: 1px 3px 7px 2px hsl(230, 50%, 85%);
   margin: 4vh auto;
   display: flex;
+  border-radius: 1%;
 }
 
 .Card img {
   height: 30vh;
   min-height: 160px;
+  margin: 5vh;
+  border-radius: 50%;
 }
 
-.CardsPage {
+.userInfo {
+  padding: 2vh 2vw;
+  overflow: auto;
+}
+
+.userInfo p {
+  color: hsl(230, 20%, 70%);
+  font-size: 1.3rem;
+}
+
+.userInfoLabel {
+  font-weight: 600;
+}
+
+h3,
+p {
+  margin: 0;
+}
+
+h2 {
+  margin: 0 0 2vh 0;
+}
+
+h3 {
+  color: rgba(16, 207, 118, 0.829);
+}
+
+#balance {
+  color: rgba(25, 139, 86, 0.931);
 }
