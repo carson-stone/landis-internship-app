@@ -110,3 +110,14 @@ h3 {
 #balance {
   color: rgba(25, 139, 86, 0.931);
 }
+
+.cardImageAndIndicator {
+  display: flex;
+  flex-direction: column;
+}
+
+.Indicator {
+  font-size: 2rem;
+  font-weight: 600;
+  text-align: center;
+}

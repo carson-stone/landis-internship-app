@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Indicator from './Indicator.js';
 
 // name
 // balance
@@ -15,7 +16,10 @@ import React, { useState } from 'react';
 function Card() {
   return (
     <div className='Card'>
-      <img src='https://i.pravatar.cc/377' alt='user picture' />
+      <div className='cardImageAndIndicator'>
+        <img src='https://i.pravatar.cc/377' alt='user picture' />
+        <Indicator />
+      </div>
       <div className='userInfo'>
         <h2>Aaron Smith</h2>
         <h3 id='balance'>Balance: $1,000.00</h3>
