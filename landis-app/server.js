@@ -139,12 +139,13 @@ app.get('/api/cards', (req, res) => {
 
 app.get('/api/analysis', (req, res) => {
   let charts = [];
-  let tableRows = [];
+  let table1Rows = [];
   let data = [];
 
   const db = openDB();
   db.serialize(async () => {
     load();
+    // make table 1
     let searchQuery = `SELECT * FROM users WHERE indicator >= (?) AND indicator <= (?);`;
 
     for (let i = 1; i <= 10; i++) {
@@ -166,7 +167,7 @@ app.get('/api/analysis', (req, res) => {
                     <td>${Math.round(meanCredit)}</td>
                     <td>$${meanBalance}</td>
                   </tr>`;
-      tableRows.push(row);
+      table1Rows.push(row);
     }
 
     let table1 = `<h2>Indicator Statistics</h2>
@@ -177,9 +178,46 @@ app.get('/api/analysis', (req, res) => {
                       <th>Mean Credit</th>
                       <th>Mean Balance</th>
                     </tr>
-                    ${tableRows.join('')}
+                    ${table1Rows.join('')}
                   </table>`;
+
+    // make table 2
+    searchQuery = `SELECT * FROM users;`;
+
+    data = await getAll(db, searchQuery, []);
+    let meanCredit = 0;
+    let meanBalance = 0;
+    let meanIndicator = 0;
+    data.map(user => {
+      if (user.credit) meanCredit += user.credit;
+      if (user.balance) meanBalance += Number(user.balance);
+      if (user.indicator) meanIndicator += Number(user.indicator);
+    });
+    if (data.length > 0) {
+      meanCredit = meanCredit / data.length;
+      meanIndicator = meanIndicator / data.length;
+      meanBalance = (meanBalance / data.length).toFixed(2);
+    }
+
+    let table2 = `<h2>Total Users Statistics</h2>
+                    <table>
+                      <tr>
+                        <th>Total Users</th>
+                        <th>Mean Indicator</th>
+                        <th>Mean Credit</th>
+                        <th>Mean Balance</th>
+                      </tr>
+                      <tr>
+                        <td>${data.length}</td>
+                        <td>${Math.round(meanIndicator)}</td> 
+                        <td>${Math.round(meanCredit)}</td>
+                        <td>$${meanBalance}</td>
+                      </tr>
+                    </table>`;
+
+    // make result array
     charts.push(table1);
+    charts.push(table2);
     res.json(charts);
   });
 });
