@@ -1,19 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function AnalysisPage() {
+  const [charts, setCharts] = useState([]);
+
+  const getCharts = async () => {
+    try {
+      const res = await fetch('/api/analysis');
+      const body = await res.json();
+      return body;
+    } catch (error) {
+      return error.message;
+    }
+  };
+
+  useEffect(() => {
+    const getData = async () => {
+      const data = await getCharts();
+      setCharts(data);
+    };
+    getData();
+  }, []);
+
   return (
     <div className='AnalysisPage'>
-      <div className='AnalysisCard'>
-        <h2>Chart Title</h2>
-        <p>
-          Reprehenderit amet adipisicing nulla ad do veniam voluptate laboris.
-          Deserunt adipisicing sit est Lorem sunt enim aliqua ex. Labore labore
-          excepteur ullamco magna dolor ipsum laboris velit aliqua cupidatat
-          sint incididunt id reprehenderit. Anim aute occaecat velit amet. Non
-          voluptate id aliquip commodo enim laboris aute excepteur mollit ad
-          nulla ex sunt ex.
-        </p>
-      </div>
+      {charts.map(chart => (
+        <div
+          className='AnalysisCard'
+          dangerouslySetInnerHTML={{ __html: chart }}
+        />
+      ))}
       <div className='AnalysisCard'>
         <h2>Chart Title</h2>
         <p>

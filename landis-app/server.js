@@ -120,6 +120,47 @@ app.get('/api/cards', (req, res) => {
   res.json(users);
 });
 
+app.get('/api/analysis', (req, res) => {
+  let charts = [];
+  let table1 = `<table>
+                <tr>
+                  <th>Firstname</th>
+                  <th>Lastname</th> 
+                  <th>Age</th>
+                </tr>
+                <tr>
+                  <td>Jill</td>
+                  <td>Smith</td> 
+                  <td>50</td>
+                </tr>
+                <tr>
+                  <td>Eve</td>
+                  <td>Jackson</td> 
+                  <td>94</td>
+                </tr>
+              </table>`;
+  let table2 = `<table>
+                <tr>
+                  <th>Other Firstname</th>
+                  <th>Other Lastname</th> 
+                  <th>Age</th>
+                </tr>
+                <tr>
+                  <td>Bob</td>
+                  <td>Smith</td> 
+                  <td>30</td>
+                </tr>
+                <tr>
+                  <td>Linda</td>
+                  <td>Jackson</td> 
+                  <td>44</td>
+                </tr>
+              </table>`;
+  charts.push(table1);
+  charts.push(table2);
+  res.json(charts);
+});
+
 app.listen(5000, () => {
   console.log('express server Listening on port 5000');
 });
