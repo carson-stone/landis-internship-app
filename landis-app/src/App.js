@@ -22,6 +22,7 @@ function App() {
   useEffect(() => {
     const getData = async () => {
       const users = await getCards();
+      for (let user of users) user['tags'] = JSON.parse(user['tags']);
       setUsers(users);
     };
     getData();

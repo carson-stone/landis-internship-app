@@ -225,8 +225,14 @@ const app = express();
 
 // endpoints for app
 app.get('/api/cards', (req, res) => {
-  const users = load();
-  res.json(users);
+  let users;
+  const db = openDB();
+  db.serialize(async () => {
+    users = await getAll(db, 'SELECT * FROM users;', []);
+    console.log('users', users);
+    closeDB(db);
+    res.send(users);
+  });
 });
 
 app.get('/api/analysis', (req, res) => {
@@ -306,6 +312,7 @@ app.get('/api/analysis', (req, res) => {
                         <td>$${meanBalance}</td>
                       </tr>
                     </table>`;
+    closeDB(db);
 
     // make result array
     charts.push(table1);
