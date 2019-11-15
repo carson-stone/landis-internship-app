@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Indicator from './Indicator.js';
 
 function Card(props) {
-  const { user } = props;
+  const { user, indicator } = props;
   const {
     id,
     picture,
@@ -23,7 +23,7 @@ function Card(props) {
     <div className='Card'>
       <div className='cardImageAndIndicator'>
         <img src={picture} alt='user' />
-        <Indicator />
+        <Indicator score={indicator} />
       </div>
       <div className='userInfo'>
         <h2>

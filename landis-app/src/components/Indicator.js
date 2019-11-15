@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
-function Indicator() {
+function Indicator(props) {
   return (
     <div className='Indicator'>
-      <p>33%</p>
+      <p>{props.score}%</p>
     </div>
   );
 }
