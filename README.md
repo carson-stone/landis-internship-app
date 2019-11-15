@@ -17,3 +17,11 @@ yarn install
 yarn start
 ```
 
+## API
+
+The endponts are:
+
+* /api/create
+* /api/read
+* /api/update
+* /api/delete
