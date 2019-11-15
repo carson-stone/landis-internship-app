@@ -1,18 +1,6 @@
 import React, { useState } from 'react';
 import Indicator from './Indicator.js';
 
-// name
-// balance
-// credit
-// email
-// phone
-// employer
-// address
-// comments
-// created
-// tags
-// id
-
 function Card() {
   return (
     <div className='Card'>

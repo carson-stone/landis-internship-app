@@ -1,7 +1,7 @@
 const express = require('express');
 const sqlite3 = require('sqlite3');
 const path = require('path');
-const fs = require('fs');
+const lineReader = require('line-reader-sync');
 
 const filePath = path.join(__dirname, 'src/accounts.jsonl');
 // db functions
@@ -19,32 +19,86 @@ const closeDB = db => {
 };
 
 const load = () => {
+  const reader = new lineReader(filePath);
   const db = openDB();
   db.serialize(() => {
-    let name = 'Aaron';
-    const createQuery = `CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY,
-    name TEXT
-  );`;
-    let insertQuery = 'INSERT INTO users VALUES (1, (?))';
-    let data = null;
-    try {
-      data = fs.readFileSync(filePath, { encoding: 'utf-8' });
-    } catch (error) {
-      console.log(error);
-    }
-    name = data ? data[2] : name;
+    let user = {
+      name: null,
+      balance: null,
+      credit: null,
+      email: null,
+      phone: null,
+      employer: null,
+      address: null,
+      comments: null,
+      created: null,
+      tags: null,
+      id: null
+    };
 
+    const createQuery = `CREATE TABLE IF NOT EXISTS users (
+      id TEXT PRIMARY KEY,
+      picture TEXT,
+      name_first TEXT,
+      name_last TEXT,
+      balance TEXT,
+      credit INTEGER,
+      email TEXT,
+      phone INTEGER,
+      employer TEXT,
+      address TEXT,
+      comments TEXT,
+      created TEXT,
+      tags TEXT
+    );`;
     db.run(createQuery, error => {
       if (error) console.log(error.message);
-    })
-      .run(insertQuery, name, error => {
-        if (error) console.log(error.message);
-      })
-      .get('SELECT * FROM users where id = 1;', function(error, row) {
-        if (error) console.log(error.message);
-        else console.log(row);
-      });
+    });
+    let insertQuery = `INSERT OR IGNORE INTO users VALUES (
+      (?), (?), (?), (?), (?), (?), (?), (?), (?), (?), (?), (?), (?));`;
+
+    while (true) {
+      const line = reader.readline();
+      if (line === null) break;
+      else user = JSON.parse(line);
+      let {
+        id,
+        picture,
+        name_first,
+        name_last,
+        balance,
+        credit,
+        email,
+        phone,
+        employer,
+        address,
+        comments,
+        created,
+        tags
+      } = user;
+      db.run(
+        insertQuery,
+        [
+          id,
+          picture,
+          name_first,
+          name_last,
+          balance,
+          credit,
+          email,
+          phone,
+          employer,
+          address,
+          comments,
+          created,
+          JSON.stringify(tags)
+        ],
+        error => {
+          if (error) console.log(error.message);
+        }
+      );
+    }
+
     closeDB(db, error => {
       if (error) console.log(error.message);
     });
