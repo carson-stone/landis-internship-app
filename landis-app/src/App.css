@@ -137,3 +137,15 @@ hr {
   margin: 4vh auto;
   border-radius: 1%;
 }
+
+table {
+  width: 100%;
+}
+
+th {
+  width: 33.33%;
+}
+
+td {
+  text-align: center;
+}
