@@ -29,7 +29,7 @@ function Card(props) {
         <h2>
           {name_first} {name_last}
         </h2>
-        <h3 id='balance'>Balance: ${balance}</h3>
+        <h3 id='balance'>Balance: ${Number(balance).toFixed(2)}</h3>
         <h3>Credit: {credit}</h3>
         <hr />
         <p>
