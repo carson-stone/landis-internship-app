@@ -5,7 +5,7 @@ function CardsPage(props) {
   return (
     <div className='CardsPage'>
       {props.users.map(user => (
-        <Card user={user} />
+        <Card user={user} key={user.id} />
       ))}
     </div>
   );

@@ -2,50 +2,68 @@ import React, { useState } from 'react';
 import Indicator from './Indicator.js';
 
 function Card(props) {
-  console.log('props', props);
+  const { user } = props;
+  const {
+    id,
+    picture,
+    name_first,
+    name_last,
+    balance,
+    credit,
+    email,
+    phone,
+    employer,
+    address,
+    comments,
+    created,
+    tags
+  } = user;
+
   return (
     <div className='Card'>
       <div className='cardImageAndIndicator'>
-        <img src='https://i.pravatar.cc/377' alt='user' />
+        <img src={picture} alt='user' />
         <Indicator />
       </div>
       <div className='userInfo'>
-        <h2>Aaron Smith</h2>
-        <h3 id='balance'>Balance: $1,000.00</h3>
-        <h3>Credit: $500.00</h3>
+        <h2>
+          {name_first} {name_last}
+        </h2>
+        <h3 id='balance'>Balance: ${balance}</h3>
+        <h3>Credit: {credit}</h3>
         <hr />
         <p>
           <span className='userInfoLabel'>Email: </span>
-          aaron.sm2019@gmail.com
+          {email}
         </p>
         <p>
           <span className='userInfoLabel'>Phone: </span>
-          (727) 270-1123
+          {phone}
         </p>
         <p>
           <span className='userInfoLabel'>Address: </span>
-          303 Oak Ln, New Yrok, NY, 33404
+          {address}
         </p>
         <p>
           <span className='userInfoLabel'>Employer: </span>
-          Microsoft
+          {employer}
         </p>
         <hr />
         <p>
           <span className='userInfoLabel'>Comments: </span>
-          account needs attention
+          {comments}
         </p>
         <p>
           <span className='userInfoLabel'>Created: </span>
-          10-12-2017
+          {created}
         </p>
         <p>
           <span className='userInfoLabel'>Tags: </span>
-          n/a
+          {tags}
         </p>
         <p>
           <span className='userInfoLabel'>ID: </span>
-          3342356743
+          {id}
         </p>
       </div>
     </div>
