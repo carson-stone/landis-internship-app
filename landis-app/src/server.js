@@ -317,9 +317,18 @@ app.get('/api/read', async (req, res) => {
   });
 });
 
-// app.put('/api/update', async (req, res) => {
-//   create(req.query);
-// });
+app.put('/api/update', async (req, res) => {
+  const db = openDB();
+  db.serialize(async () => {
+    const data = await getAll(db, 'SELECT * FROM users WHERE id = (?);', [
+      req.query.id
+    ]);
+    await del(db, 'DELETE FROM users WHERE id = (?);', [req.query.id]);
+    create(req.query);
+    closeDB(db);
+    res.json(data);
+  });
+});
 
 app.delete('/api/delete', async (req, res) => {
   const db = openDB();
