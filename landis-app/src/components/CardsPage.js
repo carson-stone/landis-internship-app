@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import Card from './Card.js';
 
-function CardsPage() {
+function CardsPage(props) {
   return (
     <div className='CardsPage'>
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
+      {props.users.map(user => (
+        <Card user={user} />
+      ))}
     </div>
   );
 }

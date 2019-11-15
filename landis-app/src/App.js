@@ -31,13 +31,9 @@ function App() {
     <Router>
       <div className='App'>
         <Header />
-        {users.length > 0 &&
-          users.map(user => {
-            return console.log(user);
-          })}
         <div className='body'>
           <Switch>
-            <Route exact path='/' component={CardsPage} />
+            <Route exact path='/' render={() => <CardsPage users={users} />} />
             <Route path='/analysis' component={AnalysisPage} />
           </Switch>
         </div>

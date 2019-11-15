@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Indicator from './Indicator.js';
 
-function Card() {
+function Card(props) {
+  console.log('props', props);
   return (
     <div className='Card'>
       <div className='cardImageAndIndicator'>
