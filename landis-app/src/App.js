@@ -7,7 +7,7 @@ import AnalysisPage from './components/AnalysisPage.js';
 import './App.css';
 
 function App() {
-  //const [adding, setAdding] = useState(false);
+  const [users, setUsers] = useState([]);
 
   const getCards = async () => {
     try {
@@ -20,13 +20,21 @@ function App() {
   };
 
   useEffect(() => {
-    console.log(getCards());
-  });
+    const getData = async () => {
+      const users = await getCards();
+      setUsers(users);
+    };
+    getData();
+  }, []);
 
   return (
     <Router>
       <div className='App'>
         <Header />
+        {users.length > 0 &&
+          users.map(user => {
+            return console.log(user);
+          })}
         <div className='body'>
           <Switch>
             <Route exact path='/' component={CardsPage} />
