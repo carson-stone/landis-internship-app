@@ -142,8 +142,9 @@ table {
   width: 100%;
 }
 
-th {
-  width: 33.33%;
+tr {
+  display: flex;
+  justify-content: space-around;
 }
 
 td {

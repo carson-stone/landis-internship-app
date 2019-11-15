@@ -35,7 +35,8 @@ const load = () => {
       comments: null,
       created: null,
       tags: null,
-      id: null
+      id: null,
+      indicator: null
     };
 
     const createQuery = `CREATE TABLE IF NOT EXISTS users (
@@ -51,13 +52,14 @@ const load = () => {
       address TEXT,
       comments TEXT,
       created TEXT,
-      tags TEXT
+      tags TEXT,
+      indicator INT
     );`;
     db.run(createQuery, error => {
       if (error) console.log(error.message);
     });
     let insertQuery = `INSERT OR IGNORE INTO users VALUES (
-      (?), (?), (?), (?), (?), (?), (?), (?), (?), (?), (?), (?), (?));`;
+      (?), (?), (?), (?), (?), (?), (?), (?), (?), (?), (?), (?), (?), (?));`;
 
     while (true) {
       const line = reader.readline();
@@ -65,6 +67,10 @@ const load = () => {
       else {
         user = JSON.parse(line);
         user['tags'] = [...new Set(user['tags'])];
+        const indicator = Math.floor(
+          ((0.7 * user.credit) / 850 + (0.3 * user.balance) / 15000) * 100
+        );
+        user['indicator'] = indicator;
         users.push(user);
       }
       let {
@@ -80,7 +86,8 @@ const load = () => {
         address,
         comments,
         created,
-        tags
+        tags,
+        indicator
       } = user;
       db.run(
         insertQuery,
@@ -97,7 +104,8 @@ const load = () => {
           address,
           comments,
           created,
-          JSON.stringify(tags)
+          JSON.stringify(tags),
+          indicator
         ],
         error => {
           if (error) console.log(error.message);
@@ -112,53 +120,67 @@ const load = () => {
   return users;
 };
 
+const getAll = (db, query, params) => {
+  return new Promise((resolve, reject) => {
+    db.all(query, params, function(error, rows) {
+      if (error) reject(error.message);
+      else resolve(rows);
+    });
+  });
+};
+
 // server setup
 const app = express();
 
 app.get('/api/cards', (req, res) => {
-  let users = load();
+  const users = load();
   res.json(users);
 });
 
 app.get('/api/analysis', (req, res) => {
   let charts = [];
-  let table1 = `<table>
+  let tableRows = [];
+  let data = [];
+
+  const db = openDB();
+  db.serialize(async () => {
+    load();
+    let searchQuery = `SELECT * FROM users WHERE indicator >= (?) AND indicator <= (?);`;
+
+    for (let i = 1; i <= 10; i++) {
+      data = await getAll(db, searchQuery, [10 * i - 9, 10 * i]);
+      let meanCredit = 0;
+      let meanBalance = 0;
+      data.map(user => {
+        if (user.credit) meanCredit += user.credit;
+        if (user.balance) meanBalance += Number(user.balance);
+      });
+      if (data.length > 0) {
+        meanCredit = meanCredit / data.length;
+        meanBalance = (meanBalance / data.length).toFixed(2);
+      }
+
+      const row = `<tr>
+                    <td>${10 * i - 9}-${10 * i}</td>
+                    <td>${data.length}</td> 
+                    <td>${Math.round(meanCredit)}</td>
+                    <td>${meanBalance}</td>
+                    </tr>`;
+      tableRows.push(row);
+    }
+
+    let table1 = `<table>
                 <tr>
-                  <th>Firstname</th>
-                  <th>Lastname</th> 
-                  <th>Age</th>
+                  <th>Indicator Range</th>
+                  <th>Amount of Users</th>
+                  <th>Mean Credit</th>
+                  <th>Mean Balance</th>
                 </tr>
-                <tr>
-                  <td>Jill</td>
-                  <td>Smith</td> 
-                  <td>50</td>
-                </tr>
-                <tr>
-                  <td>Eve</td>
-                  <td>Jackson</td> 
-                  <td>94</td>
-                </tr>
+                ${tableRows.join('')}
               </table>`;
-  let table2 = `<table>
-                <tr>
-                  <th>Other Firstname</th>
-                  <th>Other Lastname</th> 
-                  <th>Age</th>
-                </tr>
-                <tr>
-                  <td>Bob</td>
-                  <td>Smith</td> 
-                  <td>30</td>
-                </tr>
-                <tr>
-                  <td>Linda</td>
-                  <td>Jackson</td> 
-                  <td>44</td>
-                </tr>
-              </table>`;
-  charts.push(table1);
-  charts.push(table2);
-  res.json(charts);
+    charts.push(table1);
+    res.json(charts);
+  });
 });
 
 app.listen(5000, () => {
