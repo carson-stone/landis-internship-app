@@ -136,7 +136,10 @@ hr {
   box-shadow: 1px 3px 7px 2px hsl(230, 50%, 85%);
   margin: 4vh auto;
   border-radius: 1%;
-  padding: 2vh 2vw;
+  padding: 2vh 0;
+}
+.AnalysisCard h2 {
+  padding-left: 2vw;
 }
 
 table {
