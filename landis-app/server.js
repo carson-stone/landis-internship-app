@@ -165,19 +165,20 @@ app.get('/api/analysis', (req, res) => {
                     <td>${data.length}</td> 
                     <td>${Math.round(meanCredit)}</td>
                     <td>${meanBalance}</td>
-                    </tr>`;
+                  </tr>`;
       tableRows.push(row);
     }
 
-    let table1 = `<table>
-                <tr>
-                  <th>Indicator Range</th>
-                  <th>Amount of Users</th>
-                  <th>Mean Credit</th>
-                  <th>Mean Balance</th>
-                </tr>
-                ${tableRows.join('')}
-              </table>`;
+    let table1 = `<h2>Indicator Statistics</h2>
+                  <table>
+                    <tr>
+                      <th>Indicator Range</th>
+                      <th>Amount of Users</th>
+                      <th>Mean Credit</th>
+                      <th>Mean Balance</th>
+                    </tr>
+                    ${tableRows.join('')}
+                  </table>`;
     charts.push(table1);
     res.json(charts);
   });
