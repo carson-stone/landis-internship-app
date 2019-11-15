@@ -55,7 +55,7 @@ function Card(props) {
         </p>
         <p>
           <span className='userInfoLabel'>Created: </span>
-          {created}
+          {created.substring(0, 21)}
         </p>
         <p>
           <span className='userInfoLabel'>Tags: </span>
