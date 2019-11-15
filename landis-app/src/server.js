@@ -189,22 +189,12 @@ const create = arguments => {
   });
 };
 
-const update = () => {
-  const db = openDB();
-  db.serialize(async () => {
-    load();
-    closeDB(db, error => {
-      if (error) console.log(error.message);
-    });
-  });
-};
-
-const del = () => {
-  const db = openDB();
-  db.serialize(async () => {
-    load();
-    closeDB(db, error => {
-      if (error) console.log(error.message);
+const del = (db, query, params) => {
+  load();
+  return new Promise((resolve, reject) => {
+    db.run(query, params, function(error, rows) {
+      if (error) reject(error.message);
+      else resolve(rows);
     });
   });
 };
@@ -319,10 +309,25 @@ app.get('/api/read', async (req, res) => {
   let data;
   const db = openDB();
   db.serialize(async () => {
-    const data = await getAll(db, 'SELECT * FROM users WHERE id = (?)', [
+    const data = await getAll(db, 'SELECT * FROM users WHERE id = (?);', [
       req.query.id
     ]);
-    console.log('data', data);
+    closeDB(db);
+    res.json(data);
+  });
+});
+
+// app.put('/api/update', async (req, res) => {
+//   create(req.query);
+// });
+
+app.delete('/api/delete', async (req, res) => {
+  const db = openDB();
+  db.serialize(async () => {
+    const data = await getAll(db, 'SELECT * FROM users WHERE id = (?);', [
+      req.query.id
+    ]);
+    await del(db, 'DELETE FROM users WHERE id = (?);', [req.query.id]);
     closeDB(db);
     res.json(data);
   });
