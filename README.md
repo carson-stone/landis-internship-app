@@ -8,11 +8,12 @@ The goal was to create a full stack app that uses a database, supports CRUD oper
 
 ```bash
 git clone https://github.com/carson-stone/landis-app.git
-cd landis-app
+cd landis-app/landis-app
 ```
 ## Usage
 
 ```bash
+yarn install
 yarn start
 ```
 
