@@ -133,7 +133,6 @@ const getAll = (db, query, params) => {
 
 // db CRUD
 const create = arguments => {
-  console.log('arguments', arguments);
   if (Object.keys(arguments).length !== 13) {
     console.log('ERROR - not enough params');
     return;
@@ -190,13 +189,21 @@ const create = arguments => {
   });
 };
 
-const read = () => {
+const read = id => {
+  if (!id) {
+    console.log('ERROR - not enough params');
+    return;
+  }
+
   const db = openDB();
   db.serialize(async () => {
     load();
+    const query = `SELECT * FROM users WHERE id = ${id}`;
+    const data = getAll(db, query, []);
     closeDB(db, error => {
       if (error) console.log(error.message);
     });
+    return data;
   });
 };
 
@@ -229,7 +236,6 @@ app.get('/api/cards', (req, res) => {
   const db = openDB();
   db.serialize(async () => {
     users = await getAll(db, 'SELECT * FROM users;', []);
-    console.log('users', users);
     closeDB(db);
     res.send(users);
   });
@@ -325,6 +331,19 @@ app.get('/api/analysis', (req, res) => {
 app.post('/api/create', (req, res) => {
   create(req.query);
   res.send();
+});
+
+app.get('/api/read', async (req, res) => {
+  let data;
+  const db = openDB();
+  db.serialize(async () => {
+    const data = await getAll(db, 'SELECT * FROM users WHERE id = (?)', [
+      req.query.id
+    ]);
+    console.log('data', data);
+    closeDB(db);
+    res.json(data);
+  });
 });
 
 app.listen(5000, () => {
