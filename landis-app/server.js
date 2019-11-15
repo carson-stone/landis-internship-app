@@ -4,6 +4,7 @@ const path = require('path');
 const lineReader = require('line-reader-sync');
 
 const filePath = path.join(__dirname, 'src/accounts.jsonl');
+
 // db functions
 const openDB = () => {
   const db = new sqlite3.Database('users.db', error => {
@@ -21,7 +22,7 @@ const closeDB = db => {
 const load = () => {
   const reader = new lineReader(filePath);
   let users = [];
-  const db = openDB();
+  let db = openDB();
 
   db.serialize(() => {
     let user = {
@@ -53,7 +54,7 @@ const load = () => {
       comments TEXT,
       created TEXT,
       tags TEXT,
-      indicator INT
+      indicator INTEGER
     );`;
     db.run(createQuery, error => {
       if (error) console.log(error.message);
@@ -129,9 +130,99 @@ const getAll = (db, query, params) => {
   });
 };
 
+// db CRUD
+const create = arguments => {
+  console.log('arguments', arguments);
+  if (Object.keys(arguments).length !== 13) {
+    console.log('ERROR - not enough params');
+    return;
+  }
+  let {
+    id,
+    picture,
+    name_first,
+    name_last,
+    balance,
+    credit,
+    email,
+    phone,
+    employer,
+    address,
+    comments,
+    created,
+    tags
+  } = arguments;
+  const indicator = Math.floor(
+    ((0.7 * Number(credit)) / 850 + (0.3 * Number(balance)) / 15000) * 100
+  );
+
+  const db = openDB();
+  db.serialize(async () => {
+    load();
+    const query = `INSERT INTO users VALUES (
+      (?), (?), (?), (?), (?), (?), (?), (?), (?), (?), (?), (?), (?), (?));`;
+    db.run(
+      query,
+      [
+        id,
+        picture,
+        name_first,
+        name_last,
+        balance,
+        Number(credit),
+        email,
+        Number(phone),
+        employer,
+        address,
+        comments,
+        created,
+        tags,
+        Number(indicator)
+      ],
+      error => {
+        if (error) console.log(error.message);
+      }
+    );
+    closeDB(db, error => {
+      if (error) console.log(error.message);
+    });
+  });
+};
+
+const read = () => {
+  const db = openDB();
+  db.serialize(async () => {
+    load();
+    closeDB(db, error => {
+      if (error) console.log(error.message);
+    });
+  });
+};
+
+const update = () => {
+  const db = openDB();
+  db.serialize(async () => {
+    load();
+    closeDB(db, error => {
+      if (error) console.log(error.message);
+    });
+  });
+};
+
+const del = () => {
+  const db = openDB();
+  db.serialize(async () => {
+    load();
+    closeDB(db, error => {
+      if (error) console.log(error.message);
+    });
+  });
+};
+
 // server setup
 const app = express();
 
+// endpoints for app
 app.get('/api/cards', (req, res) => {
   const users = load();
   res.json(users);
@@ -220,6 +311,12 @@ app.get('/api/analysis', (req, res) => {
     charts.push(table2);
     res.json(charts);
   });
+});
+
+// endpoints for CRUD
+app.post('/api/create', (req, res) => {
+  create(req.query);
+  res.send();
 });
 
 app.listen(5000, () => {
