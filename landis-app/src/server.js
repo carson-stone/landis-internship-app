@@ -3,11 +3,11 @@ const sqlite3 = require('sqlite3');
 const path = require('path');
 const lineReader = require('line-reader-sync');
 
-const filePath = path.join(__dirname, 'src/accounts.jsonl');
+const filePath = path.join(__dirname, 'accounts.jsonl');
 
 // db functions
 const openDB = () => {
-  const db = new sqlite3.Database('users.db', error => {
+  const db = new sqlite3.Database(__dirname + '/users.db', error => {
     if (error) console.log(error.message);
   });
   return db;
