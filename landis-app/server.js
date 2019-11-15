@@ -20,7 +20,9 @@ const closeDB = db => {
 
 const load = () => {
   const reader = new lineReader(filePath);
+  let users = [];
   const db = openDB();
+
   db.serialize(() => {
     let user = {
       name: null,
@@ -60,7 +62,10 @@ const load = () => {
     while (true) {
       const line = reader.readline();
       if (line === null) break;
-      else user = JSON.parse(line);
+      else {
+        user = JSON.parse(line);
+        users.push(user);
+      }
       let {
         id,
         picture,
@@ -103,14 +108,15 @@ const load = () => {
       if (error) console.log(error.message);
     });
   });
+  return users;
 };
 
 // server setup
 const app = express();
 
 app.get('/api/cards', (req, res) => {
-  load();
-  res.json({ message: 'hi' });
+  let users = load();
+  res.json(users);
 });
 
 app.listen(5000, () => {
