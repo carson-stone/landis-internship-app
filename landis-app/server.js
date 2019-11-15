@@ -64,6 +64,7 @@ const load = () => {
       if (line === null) break;
       else {
         user = JSON.parse(line);
+        user['tags'] = [...new Set(user['tags'])];
         users.push(user);
       }
       let {
