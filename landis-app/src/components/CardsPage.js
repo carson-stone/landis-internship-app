@@ -6,7 +6,7 @@ function CardsPage(props) {
     <div className='CardsPage'>
       {props.users.map(user => {
         const indicator =
-          ((0.8 * user.credit) / 800 + (0.2 * user.balance) / 20000) * 100;
+          ((0.7 * user.credit) / 850 + (0.3 * user.balance) / 15000) * 100;
         return (
           <Card user={user} key={user.id} indicator={Math.floor(indicator)} />
         );
