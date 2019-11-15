@@ -129,13 +129,14 @@ hr {
 }
 
 .AnalysisCard {
-  width: 90%;
+  width: 100%;
   min-width: 500px;
   word-wrap: break-word;
   background-color: hsl(230, 75%, 99%);
   box-shadow: 1px 3px 7px 2px hsl(230, 50%, 85%);
   margin: 4vh auto;
   border-radius: 1%;
+  padding: 2vh 2vw;
 }
 
 table {
@@ -147,6 +148,8 @@ tr {
   justify-content: space-around;
 }
 
-td {
+td,
+th {
+  width: 100%;
   text-align: center;
 }

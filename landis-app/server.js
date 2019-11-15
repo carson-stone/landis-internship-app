@@ -164,7 +164,7 @@ app.get('/api/analysis', (req, res) => {
                     <td>${10 * i - 9}-${10 * i}</td>
                     <td>${data.length}</td> 
                     <td>${Math.round(meanCredit)}</td>
-                    <td>${meanBalance}</td>
+                    <td>$${meanBalance}</td>
                   </tr>`;
       tableRows.push(row);
     }
