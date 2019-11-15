@@ -189,24 +189,6 @@ const create = arguments => {
   });
 };
 
-const read = id => {
-  if (!id) {
-    console.log('ERROR - not enough params');
-    return;
-  }
-
-  const db = openDB();
-  db.serialize(async () => {
-    load();
-    const query = `SELECT * FROM users WHERE id = ${id}`;
-    const data = getAll(db, query, []);
-    closeDB(db, error => {
-      if (error) console.log(error.message);
-    });
-    return data;
-  });
-};
-
 const update = () => {
   const db = openDB();
   db.serialize(async () => {
