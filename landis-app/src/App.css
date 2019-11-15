@@ -156,3 +156,8 @@ th {
   width: 100%;
   text-align: center;
 }
+
+.user-id {
+  color: hsl(230, 55%, 80%);
+  font-size: 1.2rem;
+}

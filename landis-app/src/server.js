@@ -350,12 +350,12 @@ app.get('/api/analysis', (req, res) => {
                         <td>${minBalance}</td>
                       </tr>
                       <tr>
-                        <td className="user-id">${maxIndUser}</td>
-                        <td className="user-id">${minIndUser}</td>
-                        <td className="user-id">${maxCredUser}</td>
-                        <td className="user-id">${minCredUser}</td>
-                        <td className="user-id">${maxBalUser}</td>
-                        <td className="user-id">${minBalUser}</td>
+                        <td class="user-id">${maxIndUser}</td>
+                        <td class="user-id">${minIndUser}</td>
+                        <td class="user-id">${maxCredUser}</td>
+                        <td class="user-id">${minCredUser}</td>
+                        <td class="user-id">${maxBalUser}</td>
+                        <td class="user-id">${minBalUser}</td>
                       </tr>
                     </table>`;
     closeDB(db);
