@@ -290,11 +290,80 @@ app.get('/api/analysis', (req, res) => {
                         <td>$${meanBalance}</td>
                       </tr>
                     </table>`;
+
+    // make table 3
+    searchQuery = `SELECT * FROM users;`;
+
+    data = await getAll(db, searchQuery, []);
+    let maxCredit = (maxBalance = maxIndicator = 0);
+    let minCredit = (minBalance = minIndicator = 10000000);
+    let minCredUser,
+      maxCredUser,
+      minBalUser,
+      maxBalUser,
+      minIndUser,
+      maxIndUser = '';
+
+    data.map(user => {
+      if (user.credit > maxCredit) {
+        maxCredit = user.credit;
+        maxCredUser = user.id;
+      }
+      if (user.credit < minCredit) {
+        minCredit = user.credit;
+        minCredUser = user.id;
+      }
+      if (Number(user.balance) > maxBalance) {
+        maxBalance = Number(user.balance);
+        maxBalUser = user.id;
+      }
+      if (Number(user.balance) < minBalance) {
+        minBalance = Number(user.balance);
+        minBalUser = user.id;
+      }
+      if (user.indicator > maxIndicator) {
+        maxIndicator = user.indicator;
+        maxIndUser = user.id;
+      }
+      if (user.indicator < minIndicator) {
+        minIndicator = user.indicator;
+        minIndUser = user.id;
+      }
+    });
+
+    let table3 = `<h2>Boundary User Statistics</h2>
+                    <table>
+                      <tr>
+                        <th>Max Indicator</th>
+                        <th>Min Indicator</th>
+                        <th>Max Credit</th>
+                        <th>Min Credit</th>
+                        <th>Max Balance</th>
+                        <th>Min Balance</th>
+                      </tr>
+                      <tr>
+                        <td>${maxIndicator}</td>
+                        <td>${minIndicator}</td>
+                        <td>${maxCredit}</td>
+                        <td>${minCredit}</td>
+                        <td>${maxBalance}</td>
+                        <td>${minBalance}</td>
+                      </tr>
+                      <tr>
+                        <td className="user-id">${maxIndUser}</td>
+                        <td className="user-id">${minIndUser}</td>
+                        <td className="user-id">${maxCredUser}</td>
+                        <td className="user-id">${minCredUser}</td>
+                        <td className="user-id">${maxBalUser}</td>
+                        <td className="user-id">${minBalUser}</td>
+                      </tr>
+                    </table>`;
     closeDB(db);
 
     // make result array
     charts.push(table1);
     charts.push(table2);
+    charts.push(table3);
     res.json(charts);
   });
 });
