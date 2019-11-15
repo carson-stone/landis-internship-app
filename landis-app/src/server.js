@@ -122,6 +122,7 @@ const load = () => {
 };
 
 const getAll = (db, query, params) => {
+  load();
   return new Promise((resolve, reject) => {
     db.all(query, params, function(error, rows) {
       if (error) reject(error.message);
