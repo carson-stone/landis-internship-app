@@ -25,3 +25,10 @@ The endponts are:
 * /api/read
 * /api/update
 * /api/delete
+
+## Screenshots
+### Viewing Individual Users
+<img src="https://raw.githubusercontent.com/carson-stone/landis-app/master/screenshots/Screen%20Shot%202020-04-15%20at%204.44.41%20PM.png" alt="viewing users" width="500" />
+
+### Viewing User Statistics
+<img src="https://raw.githubusercontent.com/carson-stone/landis-app/master/screenshots/Screen%20Shot%202020-04-15%20at%204.44.57%20PM.png" alt="viewing statistics" width="500" />
